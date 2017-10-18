@@ -17,21 +17,71 @@
 
 	<dependencies>
 
-		<!-- Utilities -->
+		<!-- Antlr4 -->
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>23.2-jre</version>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yuvalshavit</groupId>
+			<artifactId>antlr-denter</artifactId>
+			<version>1.1</version>
 		</dependency>
 
 		<!-- APT dependencies -->
 		<dependency>
 			<groupId>org.immutables</groupId>
 			<artifactId>value</artifactId>
-			<version>2.5.6</version>
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Utilities -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>pl.pragmatists</groupId>
+			<artifactId>JUnitParams</artifactId>
+		</dependency>
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.7</version>
+				<executions>
+					<execution>
+						<goals><goal>antlr4</goal></goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>maven-replacer-plugin</artifactId>
+				<version>1.4.1</version>
+				<executions>
+					<execution>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includes>
+						<include>target/generated-sources/antlr4/**/*.java</include>
+					</includes>
+					<variableTokenValueMap>
+						public class=class,public interface=interface
+					</variableTokenValueMap>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
