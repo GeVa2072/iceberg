@@ -1,4 +1,4 @@
-package fr.filigrane.technologie.ice.executor.strategy;
+package fr.filigrane.technologie.ice.executor.strategies;
 
 import com.github.ledoyen.ice.parser.Scenario;
 import fr.filigrane.technologie.ice.executor.domain.step.StepExecution;

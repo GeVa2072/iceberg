@@ -3,7 +3,7 @@ package fr.filigrane.technologie.ice.executor.domain.scenario;
 import com.github.ledoyen.ice.parser.IceLanguageParser;
 import com.github.ledoyen.ice.parser.ParsingResult;
 import com.github.ledoyen.ice.parser.Scenario;
-import fr.filigrane.technologie.ice.executor.strategy.DefaultExecutionStrategy;
+import fr.filigrane.technologie.ice.executor.strategies.DefaultExecutionStrategy;
 import fr.filigrane.technologie.observable.Observable;
 import fr.filigrane.technologie.observable.Observer;
 import org.slf4j.Logger;
