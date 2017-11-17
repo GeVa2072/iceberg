@@ -4,56 +4,107 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fr.filigrane.technoogie</groupId>
-    <artifactId>ice-executor</artifactId>
-    <version>1.0-SNAPSHOT</version>
+	<groupId>fr.filigrane.technoogie</groupId>
+    <artifactId>ice</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+    <organization>
+    	<name>Ice....</name>
+    </organization>
+    <scm>
+    	<url>https://github.com/GeVa2072/iceberg</url>
+    	<connection>https://github.com/GeVa2072/iceberg.git</connection>
+    	<developerConnection>https://github.com/GeVa2072/iceberg.git</developerConnection>
+    </scm>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.github.ledoyen</groupId>
-            <artifactId>ice-parser</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+	<dependencyManagement>
+	
+	    <dependencies>
+	    	<!-- Ice dependencies -->
+	        <dependency>
+	            <groupId>com.github.ledoyen</groupId>
+	            <artifactId>ice-parser</artifactId>
+	            <version>1.0-SNAPSHOT</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>fr.filigrane.technoogie</groupId>
+	            <artifactId>ice-observer</artifactId>
+	            <version>${project.version}</version>
+	        </dependency>
+	        
+	        <!-- External API -->
+	        <dependency>
+	            <groupId>org.slf4j</groupId>
+	            <artifactId>slf4j-api</artifactId>
+	            <version>1.7.25</version>
+	        </dependency>
+	        
+	        <!-- Provided logger -->
+	        <dependency>
+	            <groupId>ch.qos.logback</groupId>
+	            <artifactId>logback-classic</artifactId>
+	            <version>1.1.11</version>
+	            <scope>provided</scope>
+	        </dependency>
+	        <dependency>
+	            <groupId>ch.qos.logback</groupId>
+	            <artifactId>logback-core</artifactId>
+	            <version>1.1.11</version>
+	            <scope>provided</scope>
+	        </dependency>
+	        
+	        <!-- Test dependencies -->
+	        <dependency>
+	            <groupId>junit</groupId>
+	            <artifactId>junit</artifactId>
+	            <version>4.12</version>
+	            <scope>test</scope>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.assertj</groupId>
+	            <artifactId>assertj-core</artifactId>
+	            <version>3.8.0</version>
+	            <scope>test</scope>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.mockito</groupId>
+	            <artifactId>mockito-core</artifactId>
+	            <version>1.10.19</version>
+	            <scope>test</scope>
+	        </dependency>
+	    </dependencies>
+	    
+	</dependencyManagement>
+	
+	<dependencies>
+		<!-- External API -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
         </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.1.11</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.1.11</version>
-            <scope>provided</scope>
-        </dependency>
+		<!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+	</dependencies>
 
 </project>
