@@ -1,27 +1,46 @@
 package fr.filigrane.technologie.ice.executor.strategy;
 
 import com.github.ledoyen.ice.parser.Scenario;
-import fr.filigrane.technologie.ice.executor.domain.scenario.ScenarioExecution;
-import fr.filigrane.technologie.ice.executor.domain.scenario.ScenarioExecutionEventType;
 import fr.filigrane.technologie.ice.executor.domain.step.StepExecution;
 import fr.filigrane.technologie.ice.executor.domain.step.StepExecutionEventType;
 import fr.filigrane.technologie.ice.executor.domain.step.StepExecutionFactory;
+import fr.filigrane.technologie.ice.executor.domain.step.StepProcessor;
 import fr.filigrane.technologie.observable.Observable;
 import fr.filigrane.technologie.observable.Observer;
 
-public class DefaultExecutionStrategy {
+import java.util.Optional;
+
+public class DefaultExecutionStrategy implements Strategy {
 
     private final StepExecutionFactory stepExecutionFactory;
+    private final StepProcessor stepProcessor;
 
-    public DefaultExecutionStrategy(final StepExecutionFactory stepExecutionFactory) {
+    public DefaultExecutionStrategy(final StepExecutionFactory stepExecutionFactory, final StepProcessor stepProcessor) {
         this.stepExecutionFactory = stepExecutionFactory;
+        this.stepProcessor = stepProcessor;
     }
 
-    public void execute(Observable<ScenarioExecutionEventType> scenarioExecution, final Scenario scenario) {
-        Observer<StepExecution, StepExecutionEventType> observer = (stepExecution, stepExecutionEventType) -> {};
+    @Override
+    public void execute(Scenario.Step step) {
+        StepExecution previousStepExecution = null;
+        for(Scenario.Step innerStep : step.steps()) {
+            // Create stepExecution and add some stepProcessor for Strategy resolution and status compute
+            StepExecution innerstepExecution =
+                    stepExecutionFactory.create(innerStep, stepProcessor.STRATEGY_RESOLVE, stepProcessor.STATUS_COMPUTE);
+            if(previousStepExecution != null) {
+                // Be notify when previousStepExecution is EXECUTED
+                previousStepExecution.addObserver(
+                        ((Observer<StepExecution, StepExecutionEventType>) (observable, event) -> innerstepExecution.execute())
+                                .accept(StepExecutionEventType.EXECUTED));
+            } else {
+                innerstepExecution.addObserver(stepProcessor.EXECUTOR); //Run first step
+            }
+            previousStepExecution = innerstepExecution;
+        }
+    }
 
-        scenario.steps().stream().forEach((s) -> stepExecutionFactory.create(s).addObserver(observer));
-
-        scenarioExecution.notifyObservers(ScenarioExecutionEventType.EXECUTING);
+    @Override
+    public String getName() {
+        return "default";
     }
 }

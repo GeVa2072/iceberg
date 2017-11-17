@@ -22,10 +22,8 @@ public class ScenarioExecutionFactory {
 
     public ScenarioExecution create(InputStream scenario) {
         LOGGER.trace("Reading scenario");
-        ScenarioExecution scenarioExecution = new ScenarioExecution(parser, scenario, stepExecutionFactory, scenarioProcessor);
+        ScenarioExecution scenarioExecution = new ScenarioExecution(parser, scenario, scenarioProcessor.PARSER, scenarioProcessor.VALIDATED, scenarioProcessor.PARSE_ERROR, scenarioProcessor.EXECUTOR);
         LOGGER.trace("Scenario execution created");
-        scenarioExecution.addObserver(scenarioProcessor);
-        LOGGER.trace("Scenario processor added as Observer");
         return scenarioExecution;
     }
 }

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class ScenarioExecution extends Observable<ScenarioExecutionEventType> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScenarioExecution.class);
@@ -27,23 +28,25 @@ public class ScenarioExecution extends Observable<ScenarioExecutionEventType> {
         this.parser = parser;
         this.scenarioInputStream = scenarioInputStream;
         LOGGER.trace("Scenario execution created");
+        Arrays.stream(scenarioExecutionObservers).forEach(s -> this.addObserver(s));
+        LOGGER.trace("Scenario execution observers Added {}", scenarioExecutionObservers);
         setChanged();
         notifyObservers(ScenarioExecutionEventType.READ);
     }
 
-    public void read() {
+    public void parse() {
         parsingResult = parser.parse(scenarioInputStream);
         LOGGER.trace("Scenario parsing");
         setChanged();
-        notifyObservers(ScenarioExecutionEventType.PARSING);
+        notifyObservers(ScenarioExecutionEventType.PARSED);
     }
 
-    public void parsing() {
+    public void validate() {
         if(parsingResult.isSuccess()) {
             LOGGER.trace("Scenario parsed {}", parsingResult.getScenario());
             scenario = parsingResult.getScenario();
             setChanged();
-            notifyObservers(ScenarioExecutionEventType.PARSED);
+            notifyObservers(ScenarioExecutionEventType.VALIDATED);
         } else {
             LOGGER.info("Scenario parsing errors : ", parsingResult.getErrors());
             setChanged();
@@ -51,11 +54,18 @@ public class ScenarioExecution extends Observable<ScenarioExecutionEventType> {
         }
     }
 
+    public void preparing() {
+        LOGGER.trace("Preparing scenario !");
+
+        //scenario.steps().stream().flatMap();
+    }
+
     public void execute() {
         LOGGER.trace("Executing scenario !");
 
-        new DefaultExecutionStrategy(stepExecutionFactory).execute(this, scenario);
+        //new DefaultExecutionStrategy(stepExecutionFactory).execute(this, scenario);
         setChanged();
+        notifyObservers(ScenarioExecutionEventType.EXECUTED);
     }
 
     public void storeResult() {
