@@ -1,5 +1,8 @@
 # iceberg
 =======
+[![Build Status](https://travis-ci.org/GeVa2072/iceberg.svg?branch=master)](https://travis-ci.org/GeVa2072/iceberg)
+[![Coverage Status](https://coveralls.io/repos/github/GeVa2072/iceberg/badge.svg?branch=master)](https://coveralls.io/repos/github/GeVa2072/iceberg?branch=master)
+
 ## ICE-parser
 
 Parser for ICE language, similar to Gherkin, but allowing nested steps.
