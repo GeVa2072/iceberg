@@ -1,0 +1,40 @@
+language: java
+sudo: false # Use container based builds. They are faster and we do not need sudo.
+
+cache:
+  directories:
+    - $HOME/.m2
+before_cache:
+  - rm -f $HOME/.m2/repository/{fr/filigrane/technologie/,com/github/ledoyen}ice/
+
+before_install:
+  - wget http://apache.claz.org/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+  - tar zxvf apache-maven-3.3.9-bin.tar.gz
+  - chmod +x apache-maven-3.3.9/bin/mvn
+  - export M2_HOME=$PWD/apache-maven-3.3.9
+  - export PATH=$PWD/apache-maven-3.3.9/bin:${PATH}
+  - hash -r
+
+jobs:
+  include:
+    # Stage Test - Job 1-2:  Builds against all available Jdks.
+    - jdk: oraclejdk8
+      script: mvn -q install
+      after_success:
+        - mvn clean cobertura:cobertura coveralls:report -P coveralls.io
+    # Stage Test - Job 3: Build java and scala doc
+    - jdk: oraclejdk8
+      env: JAVADOC=true
+      script:
+        - mvn clean install -DskipTests=true
+        - mvn javadoc:aggregate
+
+    # Stage Deploy - Job 1: Builds and deploys all artifacts with java 8.
+    #- stage: deploy
+    #  jdk: oraclejdk8
+    #  script: mvn -q deploy --settings .travis-settings.xml -Dno.gem.deploy=true -DskipTests=true -Dmaven.javadoc.skip=true
+
+branches:
+  only:
+  - master
+  - releases/*
