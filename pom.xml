@@ -17,7 +17,10 @@
 		<connection>https://github.com/GeVa2072/iceberg.git</connection>
 		<developerConnection>https://github.com/GeVa2072/iceberg.git</developerConnection>
 	</scm>
-
+	<ciManagement>
+		<url>https://travis-ci.org/GeVa2072/iceberg</url>
+		<system>Travis</system>
+	</ciManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -134,5 +137,37 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>coveralls.io</id>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>cobertura-maven-plugin</artifactId>
+							<version>2.7</version>
+							<configuration>
+								<formats>
+									<format>xml</format>
+								</formats>
+								<aggregate>true</aggregate>
+								<instrumentation>
+									<ignoreTrivial>true</ignoreTrivial>
+								</instrumentation>
+								<check />
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.eluder.coveralls</groupId>
+							<artifactId>coveralls-maven-plugin</artifactId>
+							<version>4.3.0</version>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
