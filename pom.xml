@@ -26,6 +26,7 @@
 
 	<modules>
 		<module>ice-parser</module>
+		<module>ice-observer</module>
 	</modules>
 
 	<dependencyManagement>
@@ -35,9 +36,14 @@
 			<dependency>
 				<groupId>com.github.ledoyen</groupId>
 				<artifactId>ice-parser</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>fr.filigrane.technologie</groupId>
+				<artifactId>ice-observer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- External API -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
