@@ -30,6 +30,7 @@
 	<modules>
 		<module>ice-parser</module>
 		<module>ice-observer</module>
+		<module>ice-reporting</module>
 	</modules>
 
 	<dependencyManagement>
@@ -45,6 +46,11 @@
 			<dependency>
 				<groupId>fr.filigrane.technologie</groupId>
 				<artifactId>ice-observer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.filigrane.technologie</groupId>
+				<artifactId>ice-executor</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- External API -->
